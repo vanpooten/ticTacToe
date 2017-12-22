@@ -2,7 +2,7 @@
 """
 Created on Mon Dec 11 16:38:34 2017
 
-@author: ####
+@author: vboyl
 """
 
 def inputSize():
@@ -11,12 +11,12 @@ def inputSize():
     returns: None if entry is invalid or integer n represent dimension of board
     '''
     try:
-        n = int(input('What size board to you want to play? 3x3, 4x4, etc. '))
+        n = int(input("What size board to you want to play? (3x3, 4x4, etc.): "))
     except (TypeError, ValueError):
-        print('Must input an integer of 3 or more.')
+        print("Must input an integer of 3 or more.")
         return None
     if n < 3:
-        print('Must input an integer of 3 or more.')
+        print("Must input an integer of 3 or more.")
         return None
     return n
 
@@ -83,16 +83,16 @@ def playerMove(board, turn):
         player = '2'
 
     try:
-        x, y  = [int(char) for char in input('Player {} enter a row, column (separated by a comma): '.format(player)).split(',')]
+        x, y  = [int(char) for char in input("Player {} enter a row, column (separated by a comma): ".format(player)).split(',')]
     except TypeError:
-        print('Row and column must be integers, try again')
+        print("Row and column must be integers, try again")
         return None
     except ValueError:
-        print('Please be sure to separate row and column with a comma!')
+        print("Please be sure to separate row and column with a comma!")
         return None
     
     if x < 1 or y < 1:
-        print('Row and column must be 1 or greater')
+        print("Row and column must be 1 or greater")
         return None
     if x > len(board) or y > len(board):
         print("This row or column doesn't exist! Try again")
@@ -103,7 +103,6 @@ def playerMove(board, turn):
     
     return x, y
     
-
 def validateWin(board, turn, x, y):
     '''
     board: nested list that represents board
@@ -134,7 +133,6 @@ def validateWin(board, turn, x, y):
             win = True
     # loop left diagonal
     for i in range(length):
-        print(str(win) + '3')
         if board[i][i] != marker:
             break
         if i == length-1:
@@ -166,10 +164,12 @@ def fullBoard(board):
 def game():
     '''
     master function that runs the tic tac toe game
+    returns: int representing player that won the game
     '''
     turn = 1
     gameover = False
     full = False
+    tie = False
     dimension = inputSize()
     
     while dimension == None:
@@ -179,8 +179,7 @@ def game():
     print("Ok, let's begin!")
     
     while gameover == False and full == False:
-        print(gameover, full)
-        print('Here is the current board: \n')
+        print("Here is the current board: \n")
         printBoard(gameBoard)
         print()
         
@@ -191,7 +190,7 @@ def game():
         updateBoard(gameBoard, turn, move[0], move[1])
         gameover = validateWin(gameBoard, turn, move[0], move[1])
         full = fullBoard(gameBoard)
-        print(gameover, full)
+
         turn += 1
     
     printBoard(gameBoard)
@@ -202,10 +201,49 @@ def game():
         player = 2
     
     if full and not gameover:
-        print('CATS. Nobody wins :(')
+        print("CATS. Nobody wins :(")
+        tie = True
     else:
-        print('Game over, player {} wins!'.format(player))
+        print("Game over, player {} wins!".format(player))
         
+    return player, tie
+        
+def interface():
+     
+    cont = True
+    player1wins = 0
+    player2wins = 0
+    gamesTied = 0
+    gamesPlayed = 0
+    
+    while cont:
+        win, tie = game()
+        gamesPlayed += 1
+
+        if tie:
+            gamesTied += 1
+        elif win == 1:
+            player1wins += 1
+        else:
+            player2wins += 1
+            
+        userInput = input("Do you want to contiue (y/n)? ")
+        
+        while userInput != 'y' and userInput != 'n':
+            print("Please enter 'y' or 'n'.")
+            userInput = input("Do you want to contiue (y/n)? ")
+            
+        if userInput == 'n':
+            print("Thanks for playing!")
+            print("Games played: {}".format(gamesPlayed))
+            print("Player 1 wins: {}".format(player1wins))
+            print("Player 2 wins: {}".format(player2wins))
+            print("Games drawn: {}".format(gamesTied))
+            cont = False
+        
+interface()
+        
+            
     
     
 
