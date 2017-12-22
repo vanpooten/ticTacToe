@@ -2,7 +2,7 @@
 """
 Created on Mon Dec 11 16:38:34 2017
 
-@author: vboyl
+@author: ####
 """
 
 def inputSize():
