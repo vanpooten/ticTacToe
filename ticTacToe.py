@@ -2,13 +2,13 @@
 """
 Created on Mon Dec 11 16:38:34 2017
 
-@author: ####
+@author: vboyl
 """
 
 def inputSize():
     '''
     prompts user to input integer for LxW of tic tac toe board
-    returns: None if entry is invalid or integer n represent dimension of board
+    returns: None if entry is invalid or integer n representing dimension of board
     '''
     try:
         n = int(input("What size board to you want to play? (3x3, 4x4, etc.): "))
@@ -18,6 +18,7 @@ def inputSize():
     if n < 3:
         print("Must input an integer of 3 or more.")
         return None
+    
     return n
 
 def createBoard(n):
@@ -25,12 +26,8 @@ def createBoard(n):
     n: integer that represents LxW of board
     returns: nested list representing board
     '''
-    board=[]
-    for i in range(n):
-        board.append([])
-        for j in range(n):
-            board[i].append('p')      # 'p' represents placeholder
-    
+    # 'p' represents placeholder
+    board = [(['p'] * n) for i in range(n)]        
     return board
 
 def printBoard(board):
@@ -150,16 +147,12 @@ def fullBoard(board):
     '''
     board: nested list that represents board
     tie: a bool representing if the game is tied or not
-    '''
-    length = len(board)
-    full = False
-    
-    for i in range(length):
-        for j in range(length):
-            if board[i][j] == 'p':
-                return full
-    full = True
-    return full
+    '''    
+    for row in board:
+        if 'p' in row:
+            return False
+
+    return True
 
 def game():
     '''
@@ -208,7 +201,7 @@ def game():
         
     return player, tie
         
-def interface():
+def multipleGames():
      
     cont = True
     player1wins = 0
@@ -241,7 +234,7 @@ def interface():
             print("Games drawn: {}".format(gamesTied))
             cont = False
         
-interface()
+multipleGames()
         
             
     
